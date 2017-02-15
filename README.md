@@ -1,1 +1,3 @@
 # Crud
+-Bundle update
+-Shotgun
