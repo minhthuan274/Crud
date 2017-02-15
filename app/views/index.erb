@@ -1,0 +1,24 @@
+<table class="table table-hover">
+	<caption>All of users</caption>
+	<thead>
+		<tr>
+			<th>Avatar</th>
+			<th>First name</th>
+			<th>Last name</th>
+			<th>Email</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @users.each do |user| %>
+		<tr>
+			<td> <img src="<%=user.avatarpath%>" alt="" class="img-rounded avatar-table"></td>
+			<td><%=user.firstname %></td>
+			<td><%=user.lastname %></td>
+			<td><%=user.email %></td>
+			<td><input type="" name="" value=""></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
