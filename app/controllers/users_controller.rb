@@ -10,6 +10,10 @@ class UsersController < ApplicationController
 	end
 
 	post '/signup' do 
+    temp = User.find_by(:email => params[:email])
+    if temp != nil 
+      redirect '/signup'
+    end
 		if params[:email] == "" || params[:password] == ""
 			redirect '/signup'
 		else
@@ -75,15 +79,41 @@ class UsersController < ApplicationController
 
     # Update avatar
     fileUpload = params[:avatar][:tempfile]
-    unless fileUpload.nil?
+    if fileUpload != nil
       File.delete(@user.avatarpath) if File.exist?(@user.avatarpath)
-    end
-    File.open("./public/upload/images/#{params[:email]}", 'wb') do |f|
+
+      File.open("./public/upload/images/#{@user.email}", 'wb') do |f|
       f.write(fileUpload.read)
+      end
     end
-
     @user.save
+    redirect '/info'
+  end
 
+  delete '/delete/:id' do 
+    @user = User.find_by_id(params[:id])
+    @user.destroy
+  end
+
+  # ** Search 
+
+  get '/search' do 
+    if session[:result_search] != nil
+      @user = User.find_by_id(session[:result_search])
+    else
+      @user = nil
+    end
+    erb :'users/search'
+  end
+
+  post '/search' do 
+    @user = User.find_by(:email => params[:email])
+    if @user == nil
+      session[:result_search] = nil
+    else
+      session[:result_search] = @user.id
+    end
+    redirect '/search'
   end
 
 end
