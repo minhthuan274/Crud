@@ -78,8 +78,8 @@ class UsersController < ApplicationController
     @user.password = params[:about_me]
 
     # Update avatar
-    fileUpload = params[:avatar][:tempfile]
-    if fileUpload != nil
+    if params[:avatar] != nil
+      fileUpload = params[:avatar][:tempfile]
       File.delete(@user.avatarpath) if File.exist?(@user.avatarpath)
 
       File.open("./public/upload/images/#{@user.email}", 'wb') do |f|
